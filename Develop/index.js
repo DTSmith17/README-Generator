@@ -20,7 +20,7 @@ const questions = [
         type: 'checkbox',
         message: 'Provide a Table of Contents',
         name: 'TableOfContents',
-        choices: ['Installation', 'Usage', 'License', 'Constirbutors', 'Tests Description']
+        choices: ['Installation', 'Usage', 'License', 'Constirbutors', 'Tests Description', 'Questions']
     },
     {
         type: 'input',
@@ -32,31 +32,32 @@ const questions = [
         type: 'input',
         message: 'How is this project to be used',
         name: 'usage',
-        when: (answer) => answer.TableOfContents.includes('usage'),
+        when: (answer) => answer.TableOfContents.includes('Usage'),
     },
     {
         type: 'checkbox',
         message: 'Any license required?',
         name: 'license',
         choices: ['MIT', 'Apache', 'Berkeley Source Distribution (BSD)', 'Unlicense', 'General Pblic License (GPL)', 'Affero GPL (AGPL)', 'Lesser General Public License (LGPL)', 'Eclipse Public License (EPL)','Mozilla Public License (MPL)'],
-        when: (answer) => answer.TableOfContents.includes('license'),
+        when: (answer) => answer.TableOfContents.includes('License'),
     },
     {
         type: 'input',
         message: 'All Conributers to the Project',
         name:'contributors',
-        when: (answer) => answer.TableOfContents.includes('contributors'),
+        when: (answer) => answer.TableOfContents.includes('Contributors'),
     },
     {
         type: 'input',
         message: 'Describe Test.',
         name: 'testsDescription',
-        when: (answer) => answer.TableOfContents.includes('testsDescription'),
+        when: (answer) => answer.TableOfContents.includes('Tests Description'),
     },
     {
         type: 'input',
         message: 'Any Questions?',
         name: 'questions',
+        when: (answer) => answer.TableOfContents.includes('Questions'),
     }
 ];
 
