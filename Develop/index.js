@@ -4,7 +4,7 @@ const fs = require("fs");
 const generateMarkdown = require("./utils/generateMarkdown");
 
 // TODO: Create an array of questions for user input
-
+//Inputs required for readme. And only prompts questions the user choses to include
 const questions = [
   {
     type: "input",
@@ -25,7 +25,7 @@ const questions = [
       "Usage",
       "License",
       "Contributors",
-      "Tests Description",
+      "Testing",
       "Questions",
     ],
   },
@@ -33,6 +33,7 @@ const questions = [
     type: "input",
     message: "Any Installation required?",
     name: "installation",
+    //only prompts the user with question when chosen to be included in table of contents
     when: (answers) => answers.tableOfContents.includes("Installation"),
   },
   {
@@ -59,7 +60,7 @@ const questions = [
   },
   {
     type: "input",
-    message: "All Conributers to the Project.",
+    message: "Include Conributers to the Project.",
     name: "contributors",
     when: (answers) => answers.tableOfContents.includes("Contributors"),
   },
@@ -67,24 +68,26 @@ const questions = [
     type: "input",
     message: "Describe Test.",
     name: "testsDescription",
-    when: (answers) => answers.tableOfContents.includes("Tests Description"),
+    when: (answers) => answers.tableOfContents.includes("Testing"),
   },
   {
     type: "input",
     message: "Enter GitHub Username.",
-    name: "questions",
+    name: "gitHubUser",
     when: (answers) => answers.tableOfContents.includes("Questions"),
   },
   {
     type: "input",
     message: "Enter Email Address.",
-    name: "questions",
+    name: "email",
     when: (answers) => answers.tableOfContents.includes("Questions"),
   },
 ];
 
 // TODO: Create a function to write README file
+//
 function writeToFile(fileName, data) {
+  // Generate markdown data based on user input and write data to a filename
   let markdownData = generateMarkdown(data);
   fs.writeFile(fileName, markdownData, (err) =>
     err ? console.error(err) : console.log("File Written")
@@ -93,8 +96,10 @@ function writeToFile(fileName, data) {
 
 // TODO: Create a function to initialize app
 function init() {
+  // Prompt the user with questions using Inquirer
   inquirer.prompt(questions).then((response) => {
     console.log(response);
+    // Write user responses to a README.md file
     writeToFile("README.md", response);
   });
 }

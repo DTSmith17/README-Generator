@@ -1,9 +1,10 @@
 // TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
+// TODO: If there is no license, return an empty string
+//maps through selected badges and renders the correct badges
 function renderLicenseBadge(licenses) {
   const badges = licenses.map((license) => {
     if (license === "MIT") {
-      return `![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)`;
+      return `[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)`;
     }
     if (license === "Apache") {
       return `[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)`;
@@ -27,47 +28,76 @@ function renderLicenseBadge(licenses) {
       return `[![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)`;
     }
   });
-  return badges.join("");
+  return badges.join(" ");
 }
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {
-  if (!license) {
-  }
-}
-
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {
-  if (!license) {
-    return "";
-  } else {
-    return `## License 
-    ${license}`;
-  }
+function createTableOfContentsLinks(tocTitles) {
+  const links = tocTitles.map((title) => {
+    return `[${title}](#${title})`;
+  });
+  return links.join("<br>");
 }
 
 // TODO: Create a function to generate markdown for README
+//Generates markdown content based on user data. Only adds optional sections if the user decides to include section in readme
 function generateMarkdown(data) {
-  return `# ${data.title}
-${renderLicenseBadge(data.license)}
-## Description
+  let markdown = `# ${data.title}`;
+  if (data.license) {
+    markdown += `
+  ${renderLicenseBadge(data.license)}
+    `;
+  }
+
+  markdown += `
+  ## Description
 ${data.description}
 ## Table Of Contents
-${data.tableOfContents}
-## Installations
-${data.installation}
-## Usage
-${data.usage}
-${renderLicenseSection(data.license)}
-## Contributers
-${data.contributors}
-## Test Description
-${data.testsDescription}
+${createTableOfContentsLinks(data.tableOfContents)}`;
+
+  if (data.installation) {
+    markdown += `
+  ## Installations 
+  ${data.installation}`;
+  }
+
+  if (data.usage) {
+    markdown += `
+  ## Usage
+  ${data.usage}`;
+  }
+
+  if (data.license) {
+    markdown += `
+## License
+${data.license}`;
+  }
+
+  if (data.contributors) {
+    markdown += `
+## Contributors
+${data.contributors}`;
+  }
+
+  if (data.testsDescription) {
+    markdown += `
+## Testing
+${data.testsDescription}`;
+  }
+
+  if (data.gitHubUser) {
+    markdown += `
 ## Questions
-${data.questions}
-`;
+https://github.com/${data.gitHubUser}`;
+  }
+
+  if (data.email) {
+    markdown += `
+## Questions
+Reach me at:
+${data.email}`;
+  }
+
+  return markdown;
 }
 
 module.exports = generateMarkdown;
